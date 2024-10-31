@@ -42,3 +42,9 @@ sns.boxplot(x="Churn", y="MonthlyCharges", data=df)
 plt.title("Monthly Charges by Churn")
 plt.show()
 
+churned = df[df['Churn'] == 1]['MonthlyCharges']
+non_churned = df[df['Churn'] == 0]['MonthlyCharges']
+
+t_stat, p_value = ttest_ind(churned, non_churned)
+print(f"T-statistic: {t_stat}, P-value: {p_value}")
+
