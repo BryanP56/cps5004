@@ -68,3 +68,27 @@ plt.figure(figsize=(10, 6))
 sns.scatterplot(x='MonthlyCharges', y='Total_Charges', hue='Cluster', data=df, palette='viridis')
 plt.title("Monthly Charges vs. Total Charges Clustering")
 plt.show()
+
+X = df.drop("Churn", axis=1)
+y = df["Churn"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+log_model = LogisticRegression(max_iter=1000)
+log_model.fit(X_train, y_train)
+
+y_pred = log_model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+print(f"Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}")
+
+y_pred_prob = log_model.predict_proba(X_test)[:, 1]
+fpr, tpr, thresholds = roc_curve(y_test, y_pred_prob)
+plt.figure(figsize=(8, 6))
+plt.plot(fpr, tpr, label="Logistic Regression")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve")
+plt.legend()
+plt.show()
