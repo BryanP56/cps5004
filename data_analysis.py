@@ -48,3 +48,23 @@ non_churned = df[df['Churn'] == 0]['MonthlyCharges']
 t_stat, p_value = ttest_ind(churned, non_churned)
 print(f"T-statistic: {t_stat}, P-value: {p_value}")
 
+wcss = []
+for i in range(1, 11):
+    kmeans = KMeans(n_clusters=i, max_iter=5000, random_state=0)
+    kmeans.fit(df[['MonthlyCharges', 'Total_Charges']])
+    wcss.append(kmeans.inertia_)
+
+plt.figure(figsize=(10,6))
+plt.plot(range(1, 11), wcss, marker='o')
+plt.title('Elbow Method')
+plt.xlabel('Number of clusters')
+plt.ylabel('WCSS')
+plt.show()
+
+kmeans = KMeans(n_clusters=3, max_iter=5000, random_state=0)
+df['Cluster'] = kmeans.fit_predict(df[['MonthlyCharges', 'Total_Charges']])
+
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='MonthlyCharges', y='Total_Charges', hue='Cluster', data=df, palette='viridis')
+plt.title("Monthly Charges vs. Total Charges Clustering")
+plt.show()
