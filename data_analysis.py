@@ -29,3 +29,16 @@ df['Total_Charges'] = df['MonthlyCharges'] * df['tenure']
 
 scaler = StandardScaler()
 df[['Total_Charges', 'MonthlyCharges']] = scaler.fit_transform(df[['Total_Charges', 'MonthlyCharges']])
+
+print(df.describe())
+
+plt.figure(figsize=(8, 6))
+sns.histplot(df['MonthlyCharges'], kde=True)
+plt.title("Distribution of Monthly Charges")
+plt.show()
+
+plt.figure(figsize=(8, 6))
+sns.boxplot(x="Churn", y="MonthlyCharges", data=df)
+plt.title("Monthly Charges by Churn")
+plt.show()
+
