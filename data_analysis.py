@@ -10,3 +10,9 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_c
 from sklearn.cluster import KMeans
 from sklearn.linear_model import LogisticRegression
 from scipy.stats import ttest_ind
+
+df = pd.read_csv("Telco-Customer-Churn.csv")
+
+print(df.head())
+print(df.info())
+
