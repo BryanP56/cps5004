@@ -24,3 +24,8 @@ categorical_features = df.select_dtypes(include=['object']).columns
 numerical_features = df.select_dtypes(include=[np.number]).columns
 
 df = pd.get_dummies(df, columns=categorical_features, drop_first=True)
+
+df['Total_Charges'] = df['MonthlyCharges'] * df['tenure']
+
+scaler = StandardScaler()
+df[['Total_Charges', 'MonthlyCharges']] = scaler.fit_transform(df[['Total_Charges', 'MonthlyCharges']])
