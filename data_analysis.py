@@ -16,3 +16,11 @@ df = pd.read_csv("Telco-Customer-Churn.csv")
 print(df.head())
 print(df.info())
 
+print(df.isnull().sum())
+
+df.dropna(inplace=True)
+
+categorical_features = df.select_dtypes(include=['object']).columns
+numerical_features = df.select_dtypes(include=[np.number]).columns
+
+df = pd.get_dummies(df, columns=categorical_features, drop_first=True)
